@@ -3,33 +3,52 @@
 <head>
   <title>IMDB API Example</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
- 
-  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">IMDB API</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="addToFavorites()">
+              <i class="material-icons">favorite</i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  
   <h1 class="text-center">IMDB API Example</h1>
 
-  <div class="container">
-    <form class="form-inline justify-content-center py-4">
+  <div class="container my-4">
+    <form class="form-inline justify-content-center">
       <div class="input-group">
         <input type="text" class="form-control" id="searchInput" placeholder="Search for a movie or TV show">
         <div class="input-group-append">
-          <button type="button" class="btn btn-primary" onclick="search()">Search</button>
+          <button type="button" class="btn btn-primary rounded-0" onclick="search()">Search</button>
         </div>
       </div>
     </form>
   </div>
   
-
-
   <div class="container text-center">
-    <div class="btn-group mb-4" role="group">
-        <button type="button" class="btn btn-primary" onclick="displayTop250TVs()">Top 250 TV Shows</button>
-        <button type="button" class="btn btn-primary" onclick="displayComingSoon()">Coming Soon</button>
-        <button type="button" class="btn btn-primary" onclick="displayMostPopularTVs()">Most Popular TV Shows</button>
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-outline-secondary rounded-0" onclick="displayTop250TVs()">Top 250 TV Shows</button>
+      <button type="button" class="btn btn-outline-secondary rounded-0" onclick="displayComingSoon()">Coming Soon</button>
+      <button type="button" class="btn btn-outline-secondary rounded-0" onclick="displayMostPopularTVs()">Most Popular TV Shows</button>
     </div>
-</div>
-
+  </div>
 
   <div class="container">
     <div id="output" class="row"></div>
@@ -54,65 +73,105 @@
       cardBody.className = 'card-body';
       card.appendChild(cardBody);
 
-      const h4 = document.createElement('h4');
-      h4.className = 'card-title';
-      h4.textContent = title;
-      cardBody.appendChild(h4);
+     
+// Favorites button
+const favoritesButton = document.createElement('button');
+favoritesButton.className = 'btn btn-outline-primary mt-2';
+favoritesButton.textContent = 'Add to Favorites';
+favoritesButton.addEventListener('click', () => {
+  addToFavorites(title, image, description);
+});
+cardBody.appendChild(favoritesButton);
 
-      const p = document.createElement('p');
-      p.className = 'card-text';
-      p.textContent = description;
-      cardBody.appendChild(p);
+return card;
+}
 
-      return card;
-    }
+function addToFavorites(title, image, description) {
+// Get the existing favorites from local storage
+let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+// Add the new favorite to the list
+favorites.push({ title, image, description });
 
-    function search() {
-      const searchInput = document.getElementById('searchInput').value.trim();
-      if (!searchInput) return;
+// Save the updated list back to local storage
+localStorage.setItem('favorites', JSON.stringify(favorites));
 
-      fetch(`https://imdb-api.com/API/Search/k_3e39uoq2/${searchInput}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-          const output = document.getElementById('output');
-          output.innerHTML = '';
-          data.results.forEach(result => {
-            const card = createCard(result.title, result.image, result.description);
-            output.appendChild(card);
-          });
-        })
-        .catch(error => console.error(error));
-    }
+alert('Added to favorites!');
+}
 
-    function fetchAndDisplay(url) {
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      const output = document.getElementById('output');
-      output.innerHTML = '';
-      data.items.forEach(item => {
-        const card = createCard(item.title, item.image, item.description);
-        output.appendChild(card);
-      });
-    })
-    .catch(error => console.error(error));
+function search() {
+const searchInput = document.getElementById('searchInput').value.trim();
+if (!searchInput) return;
+fetch(`https://imdb-api.com/API/Search/k_3e39uoq2/${searchInput}`)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    const output = document.getElementById('output');
+    output.innerHTML = '';
+    data.results.forEach(result => {
+
+      const card = createCard(result.title, result.image, result.description);
+
+      output.appendChild(card);
+    });
+  })
+  .catch(error => console.error(error));
+
+}
+
+function fetchAndDisplay(url) {
+fetch(url)
+.then(response => response.json())
+.then(data => {
+console.log(data);
+const output = document.getElementById('output');
+output.innerHTML = '';
+data.items.forEach(item => {
+const card = createCard(item.title, item.image, item.description);
+output.appendChild(card);
+});
+})
+.catch(error => console.error(error));
 }
 
 function displayTop250TVs() {
-  fetchAndDisplay('https://imdb-api.com/API/Top250TVs/k_3e39uoq2');
+fetchAndDisplay('https://imdb-api.com/API/Top250TVs/k_3e39uoq2');
 }
 
 function displayComingSoon() {
-  fetchAndDisplay('https://imdb-api.com/API/ComingSoon/k_3e39uoq2');
+fetchAndDisplay('https://imdb-api.com/API/ComingSoon/k_3e39uoq2');
 }
 
 function displayMostPopularTVs() {
-  fetchAndDisplay('https://imdb-api.com/API/MostPopularTVs/k_3e39uoq2');
+fetchAndDisplay('https://imdb-api.com/API/MostPopularTVs/k_3e39uoq2');
 }
 
-  </script>
+function handleFavoritesClick() {
+const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+const output = document.getElementById('output');
+output.innerHTML = '';
+favorites.forEach(favorite => {
+const card = createCard(favorite.title, favorite.image, favorite.description);
+output.appendChild(card);
+});
+}
 
+function addToFavorites(title, image, description) {
+  // Get the existing favorites from local storage
+  let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  // Add the new favorite to the list
+  favorites.push({ title, image, description });
+
+  // Save the updated list back to local storage
+  localStorage.setItem('favorites', JSON.stringify(favorites));
+
+  alert('Added to favorites!');
+}
+
+
+</script>
 </body>
 </html>
+
+
+
+
