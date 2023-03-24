@@ -4,6 +4,8 @@
   <title>IMDB API Example</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+  
 </head>
 <body>
   <!-- Navbar -->
@@ -28,8 +30,22 @@
     </div>
   </nav>
   
+  <section class="bg-dark text-light py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <h1 class="display-4 mb-4">Welcome to our Movie Site</h1>
+          <h2 class="lead mb-4">Discover the latest and greatest movies from around the world.</h2>
+          <button class="btn btn-primary btn-lg">Get Started</button>
+        </div>
+      </div>
+    </div>
+  </section>
   
-  <h1 class="text-center">IMDB API Example</h1>
+  
+  
+   
+  <h1 class="text-center">Explore Movies & TV shows</h1>
 
   <div class="container my-4">
     <form class="form-inline justify-content-center">
@@ -169,6 +185,69 @@ function addToFavorites(title, image, description) {
 
 
 </script>
+<footer class="bg-dark text-light py-5 mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <h4>About Us</h4>
+        <p>We are a movie site dedicated to bringing you the latest and greatest films from around the world.</p>
+      </div>
+      <div class="col-md-3">
+        <h4>Contact Us</h4>
+        <p>123 Main St.</p>
+        <p>Los Angeles, CA 90001</p>
+        <p>(123) 456-7890</p>
+      </div>
+      <div class="col-md-3">
+        <h4>Follow Us</h4>
+        <ul class="list-unstyled">
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h4>Subscribe to our Newsletter</h4>
+        <form>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-3">
+        <h4>Top 250 TV Shows</h4>
+        <button class="btn btn-primary" onclick="displayTop250TVs()">View</button>
+      </div>
+      <div class="col-md-3">
+        <h4>Coming Soon</h4>
+        <button class="btn btn-primary" onclick="displayComingSoon()">View</button>
+      </div>
+      <div class="col-md-3">
+        <h4>Most Popular TV Shows</h4>
+        <button class="btn btn-primary" onclick="displayMostPopularTVs()">View</button>
+      </div>
+      <div class="col-md-3">
+        <h4>Favorites</h4>
+        <button class="btn btn-primary" onclick="handleFavoritesClick()">View</button>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-12">
+        <p class="text-center">&copy; 2023 Movie Site. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+
 </body>
 </html>
 
